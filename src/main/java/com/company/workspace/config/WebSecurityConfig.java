@@ -25,12 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/registration","/registration/**","/verification","/verificationCheck","/static/**", "/", "/login", "/authenticate").permitAll() // Allow access to registration page, CSS, and JS files
+                .antMatchers("/registration","/registration/**","/static/**", "/", "/login").permitAll() // Allow access to the given urls
                 .anyRequest().authenticated() // Require authentication for all other requests
                 .and()
                 .formLogin()
                 .loginPage("/login") // Specify the login page URL
-                .failureUrl("/login/error")
+                .failureUrl("/login-error")
                 .loginProcessingUrl("/authenticate")
                 .defaultSuccessUrl("/home")
                 .permitAll()

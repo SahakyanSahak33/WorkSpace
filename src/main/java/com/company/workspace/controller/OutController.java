@@ -31,12 +31,12 @@ public class OutController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        logger.info("/login + in Login Method");
+        logger.info("-----| /login |-----");
         model.addAttribute("user", userService.createUserDTO());
         return "login";
     }
 
-    @PostMapping("/authenticate")
+    @RequestMapping("/authenticate")
     public String loginPost(@ModelAttribute("user") UserDTO userDTO) {
         logger.info("/authenticate");
         logger.info(userDTO.toString());
@@ -44,11 +44,16 @@ public class OutController {
         return "redirect:/home";
     }
 
-    @GetMapping("/login/error")
+    @GetMapping("/login-error")
     public String loginError(Model model) {
-        logger.info("/login/error");
+        logger.info("/login-error");
         model.addAttribute("user", userService.createUserDTO());
         return "login";
+    }
+    @GetMapping("/logout")
+    public String logout() {
+        logger.info("-----| /logout |-----");
+        return "redirect:/login";
     }
 
     // -----------------------------| Registration |----------------------------- //
@@ -110,10 +115,10 @@ public class OutController {
         return "redirect:/registration/error";
     }
 
-    /*@ExceptionHandler(UserLoginException.class)
+    @ExceptionHandler(UserLoginException.class)
     public String handleUserLoginException(UserLoginException ex,RedirectAttributes redirectAttributes) {
         logger.info("@ExceptionHandler(UserLoginException.class)");
         redirectAttributes.addFlashAttribute("error", ex.getMessage());
-        return "redirect:/login/error";
-    }*/
+        return "redirect:/login-error";
+    }
 }
