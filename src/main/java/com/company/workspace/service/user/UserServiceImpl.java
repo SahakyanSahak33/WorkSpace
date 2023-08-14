@@ -1,7 +1,6 @@
 package com.company.workspace.service.user;
 
 
-import com.company.workspace.controller.OutController;
 import com.company.workspace.dao.AuthorityRepository;
 import com.company.workspace.dao.UserRepository;
 import com.company.workspace.dto.UserDTO;
@@ -76,8 +75,10 @@ public class UserServiceImpl implements  UserService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("loadUserByUsername Method");
-        logger.debug(username);
+        logger.debug(username == null);
+        logger.info(username);
         User user = userRepository.findByEmail(username);
+        logger.debug(user == null);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
@@ -106,12 +107,13 @@ public class UserServiceImpl implements  UserService{
     public void checkUser(UserDTO userDTO) {
         logger.info("checkUser Method");
         User user = userRepository.findByEmail(userDTO.getEmail());
+        logger.debug(user);
+        logger.debug(userDTO);
         if (user == null){
             logger.info("user is Null in checkUser Method");
             throw new UserLoginException("Email or Password was wrong.");
         }
         String password = userDTO.getPassword();
-        logger.info(user);
         if (!BCrypt.checkpw(password, user.getPassword())) {
             logger.info("Password was not equals in checkUser Method");
             throw new UserLoginException("Email or Password was wrong.");

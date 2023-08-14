@@ -36,7 +36,7 @@ public class OutController {
         return "login";
     }
 
-    @RequestMapping("/authenticate")
+    @PostMapping("/authenticate")
     public String loginPost(@ModelAttribute("user") UserDTO userDTO) {
         logger.info("/authenticate");
         logger.info(userDTO.toString());
