@@ -1,6 +1,5 @@
 package com.company.workspace.controller;
 
-import org.apache.log4j.Logger;
 import com.company.workspace.dto.UserDTO;
 import com.company.workspace.dto.VerificationDTO;
 import com.company.workspace.entity.User;
@@ -12,6 +11,8 @@ import com.company.workspace.service.user.UserService;
 import com.company.workspace.service.userDetails.UserDetailsService;
 import com.company.workspace.service.verification.VerificationService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class OutController {
     private final UserDetailsService userDetailsService;
     private final EmailService emailService;
     private final VerificationService verificationService;
-    private static final Logger logger = Logger.getLogger(OutController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OutController.class);
 
     // -----------------------------| Login |----------------------------- //
 
@@ -46,7 +47,7 @@ public class OutController {
 
     @GetMapping("/login-error")
     public String loginError(Model model) {
-        logger.info("/login-error");
+        logger.error("/login-error");
         model.addAttribute("user", userService.createUserDTO());
         return "login";
     }

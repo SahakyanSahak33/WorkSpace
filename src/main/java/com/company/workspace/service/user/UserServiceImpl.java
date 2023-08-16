@@ -10,7 +10,8 @@ import com.company.workspace.handler.UserLoginException;
 import com.company.workspace.handler.UserRegistrationException;
 import com.company.workspace.service.date.DateService;
 import lombok.RequiredArgsConstructor;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements  UserService{
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final DateService dateService;
-    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public User findByEmail(String email) {
@@ -76,11 +77,11 @@ public class UserServiceImpl implements  UserService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("loadUserByUsername Method");
         System.out.println(username);
-        logger.info(username.equals(""));
+        logger.info(String.valueOf(username.equals("")));
         User user = userRepository.findByEmail(username);
-        logger.debug(user == null);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
+        logger.debug(String.valueOf(user == null)); // true
+        if (user == null) { // true
+            throw new UsernameNotFoundException("Invalid username or password."); // trowing
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
@@ -107,8 +108,8 @@ public class UserServiceImpl implements  UserService{
     public void checkUser(UserDTO userDTO) {
         logger.info("checkUser Method");
         User user = userRepository.findByEmail(userDTO.getEmail());
-        logger.debug(user);
-        logger.debug(userDTO);
+        logger.debug(String.valueOf(user));
+        logger.debug(String.valueOf(userDTO));
         if (user == null){
             logger.info("user is Null in checkUser Method");
             throw new UserLoginException("Email or Password was wrong.");
